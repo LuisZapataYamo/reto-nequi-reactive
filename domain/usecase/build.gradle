@@ -1,0 +1,9 @@
+group = 'co.com.bancolombia'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+dependencies {
+    implementation project(':model')
+}
