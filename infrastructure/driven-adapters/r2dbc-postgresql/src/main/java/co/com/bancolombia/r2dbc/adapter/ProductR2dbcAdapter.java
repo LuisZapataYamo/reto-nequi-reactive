@@ -47,4 +47,14 @@ public class ProductR2dbcAdapter extends ReactiveAdapterOperations<
                         .map(List::getFirst)
                 );
     }
+
+    @Override
+    public Mono<Product> getProductById(UUID id) {
+        return this.findById(id);
+    }
+
+    @Override
+    public Mono<Void> removeProduct(Product product) {
+        return this.repository.delete(this.toData(product));
+    }
 }
