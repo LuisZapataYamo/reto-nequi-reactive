@@ -15,10 +15,10 @@ public class CreateFranchiseUseCase {
 
     public Mono<Franchise> createFranchise(Franchise franchise) {
         return franchiseRepository.getFranchiseByName(franchise.getName())
+                .flatMap(unused -> Mono.<Franchise>error(new FranchiseException(FranchiseExceptionMessage.FRANCHISE_WITH_NAME_EXIST)))
                 .switchIfEmpty(Mono.defer(() -> {
                     franchise.setId(UUID.randomUUID());
                     return franchiseRepository.saveFranchise(franchise);
-                }))
-                .flatMap(existing -> Mono.error(new FranchiseException(FranchiseExceptionMessage.FRANCHISE_WITH_NAME_EXIST)));
+                }));
     }
 }

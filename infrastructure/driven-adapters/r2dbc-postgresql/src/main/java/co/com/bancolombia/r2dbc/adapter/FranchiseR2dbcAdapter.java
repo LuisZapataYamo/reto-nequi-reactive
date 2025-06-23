@@ -43,7 +43,13 @@ public class FranchiseR2dbcAdapter extends ReactiveAdapterOperations<
                 })
                 .flatMap(franchiseModel -> this.findByExample(franchiseModel)
                         .collectList()
+                        .filter(list -> !list.isEmpty())
                         .map(List::getFirst)
                 );
+    }
+
+    @Override
+    public Mono<Franchise> getFranchiseById(UUID id) {
+        return this.findById(id);
     }
 }

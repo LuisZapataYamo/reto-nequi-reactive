@@ -1,5 +1,6 @@
 package co.com.bancolombia.api.router;
 
+import co.com.bancolombia.api.handler.BranchHandler;
 import co.com.bancolombia.api.handler.FranchiseHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +14,12 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class RouterRest {
 
     @Bean(name = "franchisesRouterRestBean")
-    public RouterFunction<ServerResponse> routerFunction(FranchiseHandler handler) {
+    public RouterFunction<ServerResponse> routerFranchiseFunction(FranchiseHandler handler) {
         return route(POST("/api/franchises"), handler::createFranchise);
+    }
+
+    @Bean(name = "branchesRouterRestBean")
+    public RouterFunction<ServerResponse> routerBranchFunction(BranchHandler handler) {
+        return route(POST("/api/branches"), handler::createBranch);
     }
 }

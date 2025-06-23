@@ -12,4 +12,9 @@ public class ApiException extends RuntimeException {
         super(exceptionMessage.getMessage());
         this.exceptionMessage = exceptionMessage;
     }
+
+    public ApiException(IExceptionMessage exceptionMessage, String param) {
+        super(String.format(exceptionMessage.getMessage(), param));
+        this.exceptionMessage = exceptionMessage;
+    }
 }

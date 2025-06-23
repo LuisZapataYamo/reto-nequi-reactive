@@ -9,6 +9,7 @@ import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -26,10 +27,29 @@ public class BranchR2dbcAdapter extends ReactiveAdapterOperations<
     @Override
     public Mono<Branch> saveBranch(Branch branch) {
         return Mono.just(this.toData(branch))
-                .flatMap(fraEntity -> {
-                    fraEntity.setIsNew(Boolean.TRUE);
-                    return this.repository.save(fraEntity);
+                .flatMap(braEntity -> {
+                    braEntity.setIsNew(Boolean.TRUE);
+                    return this.repository.save(braEntity);
                 })
                 .map(this::toEntity);
+    }
+
+    @Override
+    public Mono<Branch> getBranchByName(String name) {
+        return Mono.defer(() -> {
+                    Branch model = new Branch();
+                    model.setName(name);
+                    return Mono.just(model);
+                })
+                .flatMap(branchModel -> this.findByExample(branchModel)
+                        .collectList()
+                        .filter(list -> !list.isEmpty())
+                        .map(List::getFirst)
+                );
+    }
+
+    @Override
+    public Mono<Branch> getBranchById(UUID id) {
+        return this.findById(id);
     }
 }

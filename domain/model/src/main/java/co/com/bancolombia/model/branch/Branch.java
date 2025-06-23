@@ -13,6 +13,6 @@ import java.util.UUID;
 public class Branch {
     private UUID id;
     private String name;
-    private Integer franchiseId;
+    private UUID franchiseId;
     private List<Product> products;
 }

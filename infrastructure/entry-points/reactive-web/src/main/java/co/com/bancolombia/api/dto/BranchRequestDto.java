@@ -1,4 +1,5 @@
-package co.com.bancolombia.model.product;
+package co.com.bancolombia.api.dto;
+
 import lombok.*;
 
 import java.util.UUID;
@@ -8,9 +9,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Product {
-    private UUID id;
+public class BranchRequestDto {
     private String name;
-    private Integer stock;
-    private UUID branchId;
+    private UUID franchiseId;
 }
