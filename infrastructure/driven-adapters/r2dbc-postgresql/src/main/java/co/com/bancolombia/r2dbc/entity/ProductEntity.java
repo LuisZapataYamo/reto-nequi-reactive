@@ -1,9 +1,6 @@
 package co.com.bancolombia.r2dbc.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
@@ -15,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder(toBuilder = true)
 @Table(name = "product")
 public class ProductEntity implements Persistable<UUID> {
@@ -24,7 +22,7 @@ public class ProductEntity implements Persistable<UUID> {
     private Integer stock;
 
     @Column("branch_id")
-    private Integer branchId;
+    private UUID branchId;
 
     @Transient
     private Boolean isNew;
