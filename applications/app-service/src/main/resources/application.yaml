@@ -13,10 +13,10 @@ spring:
     include: null
 adapters:
   r2dbc:
-    host: "localhost"
+    host: localhost
     port: 5432
-    database: "franchises"
-    username: "postgres"
+    database: franchises
+    username: postgres
     password: 123456
 management:
   endpoints:
@@ -29,3 +29,10 @@ management:
         enabled: true
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
+
+#logging:
+#  level:
+#    root: debug
+#    org.springframework.web: debug
+#    org.springframework.web.server.adapter.HttpWebHandlerAdapter: debug
+

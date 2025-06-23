@@ -1,18 +1,17 @@
 package co.com.bancolombia.model.branch;
 import co.com.bancolombia.model.product.Product;
-import lombok.Builder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder(toBuilder = true)
 public class Branch {
-    private Integer id;
+    private UUID id;
     private String name;
     private Integer franchiseId;
     private List<Product> products;

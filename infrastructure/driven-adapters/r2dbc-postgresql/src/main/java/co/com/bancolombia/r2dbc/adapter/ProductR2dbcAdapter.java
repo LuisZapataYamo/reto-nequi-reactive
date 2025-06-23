@@ -9,11 +9,13 @@ import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Repository
 public class ProductR2dbcAdapter extends ReactiveAdapterOperations<
         Product,
         ProductEntity,
-        Integer,
+        UUID,
         ProductR2dbcRepository
         > implements ProductRepository {
 

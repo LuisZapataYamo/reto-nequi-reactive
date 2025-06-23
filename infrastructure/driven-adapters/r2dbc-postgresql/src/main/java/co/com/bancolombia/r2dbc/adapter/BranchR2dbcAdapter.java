@@ -9,11 +9,13 @@ import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Repository
 public class BranchR2dbcAdapter extends ReactiveAdapterOperations<
         Branch,
         BranchEntity,
-        Integer,
+        UUID,
         BranchR2dbcRepository
         > implements BranchRepository {
 
@@ -23,6 +25,11 @@ public class BranchR2dbcAdapter extends ReactiveAdapterOperations<
 
     @Override
     public Mono<Branch> saveBranch(Branch branch) {
-        return this.save(branch);
+        return Mono.just(this.toData(branch))
+                .flatMap(fraEntity -> {
+                    fraEntity.setIsNew(Boolean.TRUE);
+                    return this.repository.save(fraEntity);
+                })
+                .map(this::toEntity);
     }
 }
