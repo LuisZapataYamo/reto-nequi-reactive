@@ -18,7 +18,7 @@ public class CreateProductUseCase {
     public Mono<Product> createProduct(Product product) {
         return branchRepository.getBranchById(product.getBranchId())
                 .switchIfEmpty(Mono.error(new ProductException(ProductExceptionMessage.BRANCH_NOT_EXISTS, product.getBranchId().toString())))
-                .flatMap(unused -> productRepository.getProductByName(product.getName()))
+                .flatMap(unused -> productRepository.getProductByName(product.getName(), product.getBranchId()))
                 .flatMap(unused -> Mono.<Product>error(new ProductException(ProductExceptionMessage.PRODUCT_WITH_NAME_EXIST)))
                 .switchIfEmpty(Mono.defer(() -> {
                     product.setId(UUID.randomUUID());

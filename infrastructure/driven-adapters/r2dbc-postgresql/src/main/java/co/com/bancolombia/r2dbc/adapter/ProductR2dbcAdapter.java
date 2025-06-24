@@ -35,10 +35,21 @@ public class ProductR2dbcAdapter extends ReactiveAdapterOperations<
     }
 
     @Override
-    public Mono<Product> getProductByName(String name) {
+    public Mono<Product> updateProduct(Product product) {
+        return Mono.just(this.toData(product))
+                .flatMap(entity -> {
+                    entity.setIsNew(Boolean.FALSE);
+                    return this.repository.save(entity);
+                })
+                .map(this::toEntity);
+    }
+
+    @Override
+    public Mono<Product> getProductByName(String name, UUID branchId) {
         return Mono.defer(() -> {
                     Product model = new Product();
                     model.setName(name);
+                    model.setBranchId(branchId);
                     return Mono.just(model);
                 })
                 .flatMap(productModel -> this.findByExample(productModel)

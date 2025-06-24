@@ -7,7 +7,8 @@ import java.util.UUID;
 
 public interface ProductRepository {
     Mono<Product> saveProduct(Product product);
-    Mono<Product> getProductByName(String name);
+    Mono<Product> updateProduct(Product product);
+    Mono<Product> getProductByName(String name, UUID branchId);
     Mono<Product> getProductById(UUID id);
     Mono<Void> removeProduct(Product product);
 }

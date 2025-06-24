@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public interface BranchRepository {
     Mono<Branch> saveBranch(Branch branch);
-    Mono<Branch> getBranchByName(String name);
+    Mono<Branch> getBranchByName(String name, UUID franchiseId);
     Mono<Branch> getBranchById(UUID id);
 }

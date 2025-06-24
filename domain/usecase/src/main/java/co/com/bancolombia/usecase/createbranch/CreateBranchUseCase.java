@@ -18,7 +18,7 @@ public class CreateBranchUseCase {
     public Mono<Branch> createBranch(Branch branch) {
         return franchiseRepository.getFranchiseById(branch.getFranchiseId())
                 .switchIfEmpty(Mono.error(new BranchException(BranchExceptionMessage.FRANCHISE_NOT_EXISTS, branch.getFranchiseId().toString())))
-                .flatMap(unused -> branchRepository.getBranchByName(branch.getName()))
+                .flatMap(unused -> branchRepository.getBranchByName(branch.getName(), branch.getFranchiseId()))
                 .flatMap(unused -> Mono.<Branch>error(new BranchException(BranchExceptionMessage.BRANCH_WITH_NAME_EXIST)))
                 .switchIfEmpty(Mono.defer(() -> {
                     branch.setId(UUID.randomUUID());

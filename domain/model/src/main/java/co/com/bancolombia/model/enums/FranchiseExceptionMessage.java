@@ -2,7 +2,7 @@ package co.com.bancolombia.model.enums;
 
 
 public enum FranchiseExceptionMessage implements IExceptionMessage {
-    FRANCHISE_WITH_NAME_EXIST("Franquicia con este nombre ya existe", "400");
+    FRANCHISE_WITH_NAME_EXIST("Franquicia con este nombre ya existe", "409");
 
     private final String message;
     private final String code;

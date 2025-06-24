@@ -7,6 +7,7 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
+import static org.springframework.web.reactive.function.server.RequestPredicates.PUT;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
@@ -14,6 +15,7 @@ public class RouterProductRest {
 
     @Bean(name = "productsRouterRestBean")
     public RouterFunction<ServerResponse> routerProductFunction(ProductHandler handler) {
-        return route(POST("/api/products"), handler::createProduct);
+        return route(POST("/api/products"), handler::createProduct)
+                .andRoute(PUT("api/products/{productId}"), handler::modifyProduct);
     }
 }

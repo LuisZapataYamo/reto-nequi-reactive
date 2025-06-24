@@ -35,10 +35,11 @@ public class BranchR2dbcAdapter extends ReactiveAdapterOperations<
     }
 
     @Override
-    public Mono<Branch> getBranchByName(String name) {
+    public Mono<Branch> getBranchByName(String name, UUID franchiseId) {
         return Mono.defer(() -> {
                     Branch model = new Branch();
                     model.setName(name);
+                    model.setFranchiseId(franchiseId);
                     return Mono.just(model);
                 })
                 .flatMap(branchModel -> this.findByExample(branchModel)
