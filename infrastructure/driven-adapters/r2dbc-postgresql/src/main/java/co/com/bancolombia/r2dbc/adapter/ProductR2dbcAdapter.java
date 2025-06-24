@@ -1,5 +1,6 @@
 package co.com.bancolombia.r2dbc.adapter;
 
+import co.com.bancolombia.model.branch.Branch;
 import co.com.bancolombia.model.product.Product;
 import co.com.bancolombia.model.product.gateways.ProductRepository;
 import co.com.bancolombia.r2dbc.entity.ProductEntity;
@@ -7,6 +8,7 @@ import co.com.bancolombia.r2dbc.helper.ReactiveAdapterOperations;
 import co.com.bancolombia.r2dbc.repository.ProductR2dbcRepository;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -67,5 +69,21 @@ public class ProductR2dbcAdapter extends ReactiveAdapterOperations<
     @Override
     public Mono<Void> removeProduct(Product product) {
         return this.repository.delete(this.toData(product));
+    }
+
+    @Override
+    public Flux<Product> getTopProductsForBranchAndFranchise(UUID franchise) {
+        return this.repository.getTopProductByBranchToFranchise(franchise)
+                .map(productTop -> Product.builder()
+                                    .id(productTop.getProductid())
+                                    .name(productTop.getProductname())
+                                    .stock(productTop.getProductstock())
+                                    .branch(Branch.builder()
+                                            .id(productTop.getBranchid())
+                                            .name(productTop.getBranchname())
+                                            .build()
+                                    )
+                                    .build()
+                );
     }
 }

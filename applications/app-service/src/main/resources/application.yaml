@@ -32,7 +32,6 @@ cors:
 
 #logging:
 #  level:
-#    root: debug
-#    org.springframework.web: debug
-#    org.springframework.web.server.adapter.HttpWebHandlerAdapter: debug
+#    org.springframework.r2dbc.core: DEBUG
+#    io.r2dbc.postgresql.QUERY: DEBUG
 

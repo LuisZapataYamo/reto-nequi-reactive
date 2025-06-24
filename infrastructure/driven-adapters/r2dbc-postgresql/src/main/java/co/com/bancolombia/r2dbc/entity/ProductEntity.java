@@ -25,6 +25,9 @@ public class ProductEntity implements Persistable<UUID> {
     private UUID branchId;
 
     @Transient
+    private BranchEntity branch;
+
+    @Transient
     private Boolean isNew;
 
     @Override
