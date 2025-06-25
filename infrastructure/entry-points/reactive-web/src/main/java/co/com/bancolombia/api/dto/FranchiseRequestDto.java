@@ -1,14 +1,12 @@
 package co.com.bancolombia.api.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder(toBuilder = true)
 public class FranchiseRequestDto {
     private String name;
 }

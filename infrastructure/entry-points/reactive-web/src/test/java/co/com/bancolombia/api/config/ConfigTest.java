@@ -1,7 +1,7 @@
 package co.com.bancolombia.api.config;
 
-import co.com.bancolombia.api.handler.Handler;
-import co.com.bancolombia.api.router.RouterRest;
+import co.com.bancolombia.api.exceptions.GlobalExceptionHandler;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-@ContextConfiguration(classes = {RouterRest.class, Handler.class})
+@ContextConfiguration(classes = {WebPropertiesConfig.class, GlobalExceptionHandler.class, ObjectMapper.class})
 @WebFluxTest
 @Import({CorsConfig.class, SecurityHeadersConfig.class})
 class ConfigTest {
@@ -19,10 +19,11 @@ class ConfigTest {
 
     @Test
     void corsConfigurationShouldAllowOrigins() {
+
         webTestClient.get()
-                .uri("/api/usecase/path")
+                .uri("/actuator")
                 .exchange()
-                .expectStatus().isOk()
+                .expectStatus().isNotFound()
                 .expectHeader().valueEquals("Content-Security-Policy",
                         "default-src 'self'; frame-ancestors 'self'; form-action 'self'")
                 .expectHeader().valueEquals("Strict-Transport-Security", "max-age=31536000;")

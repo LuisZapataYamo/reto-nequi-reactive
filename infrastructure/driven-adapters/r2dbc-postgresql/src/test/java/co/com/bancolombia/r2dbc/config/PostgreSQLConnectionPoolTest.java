@@ -28,6 +28,8 @@ class PostgreSQLConnectionPoolTest {
         when(properties.schema()).thenReturn("schema");
         when(properties.username()).thenReturn("username");
         when(properties.password()).thenReturn("password");
+        when(properties.sslRequired()).thenReturn("disable");
+
     }
 
     @Test

@@ -16,6 +16,6 @@ public class RouterFranchiseRest {
     @Bean(name = "franchisesRouterRestBean")
     public RouterFunction<ServerResponse> routerFranchiseFunction(FranchiseHandler handler) {
         return route(POST("/api/franchises"), handler::createFranchise)
-                    .andRoute(GET("/api/franchises/{franchiseId}"), handler::getFranchise);
+                    .andRoute(GET("/api/franchises/{franchiseId}/products/top"), handler::getFranchise);
     }
 }

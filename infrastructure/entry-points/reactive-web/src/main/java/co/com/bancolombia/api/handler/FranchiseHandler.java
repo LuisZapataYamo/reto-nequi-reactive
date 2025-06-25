@@ -7,6 +7,7 @@ import co.com.bancolombia.usecase.createfranchise.CreateFranchiseUseCase;
 import co.com.bancolombia.usecase.gettopstockproductbybranch.GetTopStockProductByBranchUseCase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -28,6 +29,7 @@ public class FranchiseHandler {
                 .flatMap(createFranchiseUseCase::createFranchise)
                 .flatMap(response -> ServerResponse
                         .created(URI.create("/franchise/" + response.getId()))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(response));
     }
 
@@ -39,6 +41,7 @@ public class FranchiseHandler {
                 .map(e -> objectMapper.convertValue(e, ProductTopDto.class));
 
         return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(dtoFlux, ProductTopDto.class);
     }
 

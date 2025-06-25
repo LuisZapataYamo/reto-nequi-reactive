@@ -1,0 +1,198 @@
+openapi: 3.0.3
+info:
+  title: Franchise API
+  description: Documentación de los endpoints expuestos por el proyecto WebFlux funcional sobre la api franchise.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+
+paths:
+  /api/branches:
+    post:
+      summary: Crear sucursal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BranchRequestDto'
+      responses:
+        '201':
+          description: Sucursal creada
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /api/branches/{branchId}/products/{productId}:
+    delete:
+      summary: Eliminar producto de sucursal
+      parameters:
+        - in: path
+          name: branchId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Producto eliminado
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/franchises:
+    post:
+      summary: Crear franquicia
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FranchiseRequestDto'
+      responses:
+        '201':
+          description: Franquicia creada
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /api/franchises/{franchiseId}/products/top:
+    get:
+      summary: Obtener los productos top de una franquicia
+      parameters:
+        - in: path
+          name: franchiseId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Franquicia encontrada y se listan los productos
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/products:
+    post:
+      summary: Crear producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequestDto'
+      responses:
+        '201':
+          description: Producto creado
+        '404':
+            $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /api/products/{productId}:
+    put:
+      summary: Modificar producto
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductPutRequestDto'
+      responses:
+        '200':
+          description: Producto modificado
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+components:
+  responses:
+    BadRequest:
+      description: Error de validación
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseDto'
+    NotFound:
+      description: Recurso no encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseDto'
+
+    Conflict:
+      description: Conflict en la creación
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseDto'
+
+    InternalError:
+      description: Error interno del servidor
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseDto'
+
+  schemas:
+    ErrorResponseDto:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+        path:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    FranchiseRequestDto:
+      type: object
+      properties:
+        name:
+          type: string
+      required: [name]
+
+    BranchRequestDto:
+      type: object
+      properties:
+        name:
+          type: string
+        franchiseId:
+          type: string
+      required: [ name, franchiseId ]
+
+    ProductRequestDto:
+      type: object
+      properties:
+        name:
+          type: string
+        stock:
+          type: number
+        branchId:
+          type: string
+      required: [name, stock, branchId]
+
+    ProductPutRequestDto:
+      type: object
+      properties:
+        name:
+          type: string
+        stock:
+          type: number
+      required: [ name, stock ]
