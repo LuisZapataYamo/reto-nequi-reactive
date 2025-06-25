@@ -9,11 +9,14 @@ import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+import java.util.UUID;
+
 @Repository
 public class FranchiseR2dbcAdapter extends ReactiveAdapterOperations<
         Franchise,
         FranchiseEntity,
-        Integer,
+        UUID,
         FranchiseR2dbcRepository
         > implements FranchiseRepository {
 
@@ -23,6 +26,30 @@ public class FranchiseR2dbcAdapter extends ReactiveAdapterOperations<
 
     @Override
     public Mono<Franchise> saveFranchise(Franchise franchise) {
-        return this.save(franchise);
+        return Mono.just(this.toData(franchise))
+                .flatMap(fraEntity -> {
+                    fraEntity.setIsNew(Boolean.TRUE);
+                    return this.repository.save(fraEntity);
+                })
+                .map(this::toEntity);
+    }
+
+    @Override
+    public Mono<Franchise> getFranchiseByName(String name) {
+        return Mono.defer(() -> {
+                    Franchise model = new Franchise();
+                    model.setName(name);
+                    return Mono.just(model);
+                })
+                .flatMap(franchiseModel -> this.findByExample(franchiseModel)
+                        .collectList()
+                        .filter(list -> !list.isEmpty())
+                        .map(List::getFirst)
+                );
+    }
+
+    @Override
+    public Mono<Franchise> getFranchiseById(UUID id) {
+        return this.findById(id);
     }
 }

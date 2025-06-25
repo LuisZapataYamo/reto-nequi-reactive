@@ -1,18 +1,18 @@
 package co.com.bancolombia.model.product;
-import lombok.Builder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-//import lombok.NoArgsConstructor;
-import lombok.Setter;
+import co.com.bancolombia.model.branch.Branch;
+import lombok.*;
+
+import java.util.UUID;
 
 @Getter
 @Setter
-//@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Product {
-    private Integer id;
+    private UUID id;
     private String name;
     private Integer stock;
-    private Integer branchId;
+    private UUID branchId;
+    private Branch branch;
 }

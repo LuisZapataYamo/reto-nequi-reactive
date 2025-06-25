@@ -1,6 +1,6 @@
 package co.com.bancolombia.api.router;
 
-import co.com.bancolombia.api.handler.Handler;
+import co.com.bancolombia.api.handler.FranchiseHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -11,11 +11,11 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
-public class RouterRest {
-    @Bean
-    public RouterFunction<ServerResponse> routerFunction(Handler handler) {
-        return route(GET("/api/usecase/path"), handler::listenGETUseCase)
-                .andRoute(POST("/api/usecase/otherpath"), handler::listenPOSTUseCase)
-                .and(route(GET("/api/otherusercase/path"), handler::listenGETOtherUseCase));
+public class RouterFranchiseRest {
+
+    @Bean(name = "franchisesRouterRestBean")
+    public RouterFunction<ServerResponse> routerFranchiseFunction(FranchiseHandler handler) {
+        return route(POST("/api/franchises"), handler::createFranchise)
+                    .andRoute(GET("/api/franchises/{franchiseId}/products/top"), handler::getFranchise);
     }
 }
